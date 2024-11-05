@@ -163,11 +163,11 @@ function parseConfig(catalogChoices) {
   return config;
 }
 
-async function parsePoster(type, id, poster, language, rpdbkey) {
+async function parsePoster(type, id, poster, language, aiorkey) {
   const tmdbImage = `https://image.tmdb.org/t/p/w500${poster}`
-  if (rpdbkey) {
-    const rpdbImage = getRpdbPoster(type, id, language, rpdbkey)
-    return await checkIfExists(rpdbImage) ? rpdbImage : tmdbImage;
+  if (aiorkey) {
+    const aiorImage = getAiorPoster(type, id, aiorkey)
+    return await checkIfExists(aiorImage) ? aiorImage : tmdbImage;
   }
   return tmdbImage;
 }
@@ -190,19 +190,14 @@ function parseMedia(el, type, genreList = []) {
     description: el.overview,
   };
 }
-function getRpdbPoster(type, id, language, rpdbkey) {
-  const tier = rpdbkey.split("-")[0]
-  const lang = language.split("-")[0]
-  if (tier === "t0" || tier === "t1" || lang === "en") {
-    return `https://api.ratingposterdb.com/${rpdbkey}/tmdb/poster-default/${type}-${id}.jpg?fallback=true`
-  } else {
-    return `https://api.ratingposterdb.com/${rpdbkey}/tmdb/poster-default/${type}-${id}.jpg?fallback=true&lang=${lang}`
-  }
+
+function getAiorPoster(type, id, aiorkey) {
+  return `https://api.aioratings.com/poster/${aiorkey}/default/tmdb/${type}-${id}.jpg`
 }
 
-async function checkIfExists(rpdbImage) {
+async function checkIfExists(imageUrl) {
   return new Promise((resolve) => {
-    urlExists(rpdbImage, (err, exists) => {
+    urlExists(imageUrl, (err, exists) => {
       if (exists) {
         resolve(true)
       } else {
@@ -232,6 +227,6 @@ module.exports = {
   parseConfig,
   parsePoster,
   parseMedia,
-  getRpdbPoster,
+  getAiorPoster,
   checkIfExists
 };

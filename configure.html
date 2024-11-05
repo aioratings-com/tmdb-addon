@@ -252,7 +252,7 @@
         <label for="ratings">
           <input type="checkbox" id="ratings" name="ratings" />
           <span class="label-to-right">Ratings on Posters (requires
-            <a href="https://ratingposterdb.com/" target="_blank">RPDB</a>
+            <a href="https://aioratings.com/" target="_blank">AIOR</a>
             key)</span>
         </label>
       </div>
@@ -606,17 +606,17 @@
       if (event.currentTarget.checked) {
         rpdbSettings.innerHTML = `
            <div class="form-element">
-             <div class="label-to-top">RPDB API Key (get it from <a href="https://ratingposterdb.com/" target="_blank">RatingPosterDB</a>)</div>
-             <input type="input" id="rpdbkey" name="rpdbkey" class="full-width" required/>
+             <div class="label-to-top">AIOR API Key (get it from <a href="https://aioratings.com/" target="_blank">AIO Ratings</a>)</div>
+             <input type="input" id="aiorkey" name="aiorkey" class="full-width" required/>
           </div>
           `;
-        var rpdbInput = document.getElementById("rpdbkey");
-        rpdbInput.addEventListener(
+        var aiorInput = document.getElementById("aiorkey");
+        aiorInput.addEventListener(
           "blur",
           () => {
-            const apiKey = rpdbInput.value;
+            const apiKey = aiorInput.value;
             if (!apiKey) return;
-            fetch("https://api.ratingposterdb.com/" + apiKey + "/isValid")
+            fetch("https://api.aioratings.com/" + apiKey + "/usage")
               .then(async (resp) => {
                 let data;
                 try {
@@ -624,9 +624,9 @@
                 } catch (e) {
                   console.error(e);
                 }
-                if (!(data || {}).valid) {
-                  alert("RPDB Key is invalid, please try again");
-                  rpdbInput.value = "";
+                if (!data || !data.tier) {
+                  alert("AIOR Key is invalid, please try again");
+                  aiorInput.value = "";
                 }
               })
               .catch((e) => {
