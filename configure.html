@@ -256,7 +256,7 @@
             key)</span>
         </label>
       </div>
-      <div id="rpdb-data"></div>
+      <div id="aior-data"></div>
       <div class="form-element">
         <label for="provide_imdbId">
           <input type="checkbox" id="provide_imdbId" name="provide_imdbId" value="true" />
@@ -602,9 +602,9 @@
     const checkbox = document.getElementById("ratings");
 
     checkbox.addEventListener("change", (event) => {
-      const rpdbSettings = document.getElementById("rpdb-data");
+      const aiorSettings = document.getElementById("aior-data");
       if (event.currentTarget.checked) {
-        rpdbSettings.innerHTML = `
+        aiorSettings.innerHTML = `
            <div class="form-element">
              <div class="label-to-top">AIOR API Key (get it from <a href="https://aioratings.com/" target="_blank">AIO Ratings</a>)</div>
              <input type="input" id="aiorkey" name="aiorkey" class="full-width" required/>
@@ -636,7 +636,7 @@
           true
         );
       } else {
-        rpdbSettings.innerHTML = "";
+        aiorSettings.innerHTML = "";
       }
     });
   </script>
